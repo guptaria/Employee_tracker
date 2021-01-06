@@ -62,8 +62,9 @@ function start() {
         case "Add Department?":
           AddDepartment();
         break;
-        default :
+        case "EXIT":
         exit();
+        break;
        
 
     }
