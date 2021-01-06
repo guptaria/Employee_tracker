@@ -65,8 +65,6 @@ function start() {
         case "EXIT":
         exit();
         break;
-       
-
     }
   
   });
@@ -78,7 +76,6 @@ function ViewEmployees() {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.table(res);
-    // 
     start();
   });
 
@@ -101,6 +98,31 @@ function UpdateEmployee(){
 
 function AddEmployee(){
   console.log(" i am in AddEmployee");
+  inquirer.prompt(
+    {
+    name: "firstName",
+    type: "input",
+    message: "What is the first name of the employee?",
+  },
+  {
+    name: "lastName",
+    type: "input",
+    message: "What is the last name of the employee?",
+  },
+{
+    name: "adding",
+    type: "list",
+    message: "What is the Employee's role?",
+    choices: [
+      "View All Employees?",  
+      "View All Employees By Roles?",
+      "View all Employee By Deparments?",
+      "Update Employee?",
+      "Add Employee?",
+      "Add Role?",
+      "Add Department?"
+    ]
+  }
   start();
 }
 
