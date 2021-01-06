@@ -41,7 +41,7 @@ function start() {
   }).then(function (answer) {
     switch(answer.actions){
       case "View All Employees?":
-        console.log("in switch statement");
+        // console.log("in switch statement");
         ViewEmployees();
         break;
         case "View All Employees By Roles?":
@@ -50,7 +50,7 @@ function start() {
         case "View all Employees By Deparments?":
         ViewEmployeesByDepartments();
         break;
-        case "Update Employees?":
+        case "Update Employee?":
         UpdateEmployee();
         break;
         case "Add Employee?":
@@ -62,6 +62,9 @@ function start() {
         case "Add Department?":
           AddDepartment();
         break;
+        default :
+        exit();
+       
 
     }
   
@@ -69,14 +72,15 @@ function start() {
 }
 
 function ViewEmployees() {
-  console.log("success");
+  // console.log("success");
    connection.query("SELECT * FROM employee", function(err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.table(res);
-    connection.end();
+    // 
+    start();
   });
-  // start();
+
 }
 
 function ViewEmployeesByRoles(){
@@ -87,6 +91,29 @@ function ViewEmployeesByRoles(){
 function ViewEmployeesByDepartments(){
   console.log(" i am in ViewEmployeesByDepartments");
   start();
+}
+
+function UpdateEmployee(){
+  console.log(" i am in Update Employee");
+  start();
+}
+
+function AddEmployee(){
+  console.log(" i am in AddEmployee");
+  start();
+}
+
+function AddRole(){
+  console.log(" i am in AddRole");
+  start();
+}
+function AddDepartment(){
+  console.log(" i am in AddDepartment");
+  start();
+}
+
+function exit(){
+  connection.end();
 }
 
 // function createProduct() {
