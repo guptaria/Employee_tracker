@@ -60,4 +60,13 @@ SELECT * FROM role;
 SELECT * FROM employee;
 
 
+-- view employee by role
+SELECT employee_id,first_name,last_name,role.title,role.salary FROM employee
+INNER JOIN role ON role.role_id= employee.role_id;
 
+-- view employee by departments
+SELECT employee_id,first_name,last_name,department.department_name FROM employee
+INNER JOIN role ON role.role_id=employee.role_id
+INNER JOIN department ON department.department_id=role.department_id;
+
+connection.query("SELECT employee.first_name, employee.last_name, role.title, role.salary, department.name, CONCAT(e.first_name, ' ' ,e.last_name) AS Manager FROM employee INNER JOIN role on role.id = employee.role_id INNER JOIN department on department.id = role.department_id left join employee e on employee.manager_id = e.id;

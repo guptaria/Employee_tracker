@@ -31,11 +31,12 @@ function start() {
     choices: [
       "View All Employees?",  
       "View All Employees By Roles?",
-      "View all Employee By Deparments?",
+      "View all Employees By Deparments?",
       "Update Employee?",
       "Add Employee?",
       "Add Role?",
-      "Add Department?"
+      "Add Department?",
+      "Delete Employee"
     ]
 
   }).then(function (answer) {
@@ -48,7 +49,7 @@ function start() {
         ViewEmployeesByRoles();
         break;
         case "View all Employees By Deparments?":
-        ViewEmployeesByDepartments();
+          ViewEmployeesByDepartments();
         break;
         case "Update Employee?":
         UpdateEmployee();
@@ -62,6 +63,10 @@ function start() {
         case "Add Department?":
           AddDepartment();
         break;
+        case "Delete Employee":
+          DeleteEmployee();
+          break;
+
         case "EXIT":
         exit();
         break;
@@ -83,11 +88,26 @@ function ViewEmployees() {
 
 function ViewEmployeesByRoles(){
   console.log(" i am in ViewEmployeesByRoles");
+  connection.query(`SELECT employee_id,first_name,last_name,role.title,role.salary FROM employee
+  INNER JOIN role ON role.role_id = employee.role_id`, function(err, res) {
+    if (err) throw err;
+    // Log all results of the SELECT statement
+    console.table(res);
+  });
+
   start();
 }
 
 function ViewEmployeesByDepartments(){
   console.log(" i am in ViewEmployeesByDepartments");
+  connection.query(`SELECT employee_id,first_name,last_name,department.department_name FROM employee
+  INNER JOIN role ON role.role_id=employee.role_id
+  INNER JOIN department ON department.department_id=role.department_id`, function(err, res) {
+    if (err) throw err;
+    // Log all results of the SELECT statement
+    console.table(res);
+  });
+
   start();
 }
 
@@ -96,35 +116,35 @@ function UpdateEmployee(){
   start();
 }
 
-function AddEmployee(){
-  console.log(" i am in AddEmployee");
-  inquirer.prompt(
-    {
-    name: "firstName",
-    type: "input",
-    message: "What is the first name of the employee?",
-  },
-  {
-    name: "lastName",
-    type: "input",
-    message: "What is the last name of the employee?",
-  },
-{
-    name: "adding",
-    type: "list",
-    message: "What is the Employee's role?",
-    choices: [
-      "View All Employees?",  
-      "View All Employees By Roles?",
-      "View all Employee By Deparments?",
-      "Update Employee?",
-      "Add Employee?",
-      "Add Role?",
-      "Add Department?"
-    ]
-  }
-  start();
-}
+// function AddEmployee(){
+//   console.log(" i am in AddEmployee");
+//   inquirer.prompt(
+//     {
+//     name: "firstName",
+//     type: "input",
+//     message: "What is the first name of the employee?",
+//   },
+//   {
+//     name: "lastName",
+//     type: "input",
+//     message: "What is the last name of the employee?",
+//   },
+// {
+//     name: "adding",
+//     type: "list",
+//     message: "What is the Employee's role?",
+//     choices: [
+//       "View All Employees?",  
+//       "View All Employees By Roles?",
+//       "View all Employee By Deparments?",
+//       "Update Employee?",
+//       "Add Employee?",
+//       "Add Role?",
+//       "Add Department?"
+//     ]
+//   }
+//   start();
+// }
 
 function AddRole(){
   console.log(" i am in AddRole");
@@ -133,6 +153,10 @@ function AddRole(){
 function AddDepartment(){
   console.log(" i am in AddDepartment");
   start();
+}
+
+function DeleteEmployee(){
+  console.log(" i am in delete Employee");
 }
 
 function exit(){
