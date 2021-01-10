@@ -75,4 +75,4 @@ Testing
 [Click to Watch the Video](https://drive.google.com/file/d/14Q8pHlC8-h4D6Bux6fXQvUejTbpiKrjg/view)
 
 ## Github_Link
-[**URL of My Github Repository**](https://github.com/guptaria/TeamDashboard)<br>
+[**URL of My Github Repository**](https://github.com/guptaria/Employee_tracker)<br>
