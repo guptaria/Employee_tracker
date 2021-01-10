@@ -25,16 +25,15 @@ So that I can organize and plan my business
 
 ## Technologies_Used
 
-MySQL: Relational database management system based on SQL – Structured Query Language, used in this applicationt to warehouse and query employee and company data.
-Express.js - Used for application set up of middle ware for end point connection between the front end and backend.
-Node.js - Used for package managment and to execute JavaScript code to build command line tool for server-side scripting.
-Javascript - Used to base functionality of functions and prompts within the application.
-Git - Version control system to track changes to source code
-GitHub - Hosts repository that can be deployed to GitHub Pages
-Code Snippet
-The following code snippet shows the schema that is the base for our link between our app.js file that oeprates the functions for building upon our employee regestry, and data base we create with this same schema setup in our sql workbench. Once these two are connected via calling upon our required mysql package and connection port and host thats configured in our JavaScript. We can then execute the functionality of the application through our JavaScript.
+MySQL: Relational database management system based on SQL – Structured Query Language, used in this applicationt to warehouse and query employee and company data.<br>
+Express.js - Used for application set up of middle ware for end point connection between the front end and backend.<br>
+Node.js - Used for package managment and to execute JavaScript code to build command line tool for server-side scripting.<br>
+Javascript - Used to base functionality of functions and prompts within the application.<br>
+Git - Version control system to track changes to source code<br>
+GitHub - Hosts repository that can be deployed to GitHub Pages<br>
 
 ## Code_Snippet
+The following code snippet shows the schema that is the base for our link between our app.js file that oeprates the functions for building upon our employee regestry, and data base we create with this same schema setup in our sql workbench. Once these two are connected via calling upon our required mysql package and connection port and host thats configured in our JavaScript. We can then execute the functionality of the application through our JavaScript.
 
 ```
 -- employee_tracker.js
