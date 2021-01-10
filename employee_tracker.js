@@ -80,7 +80,7 @@ function start() {
   });
 }
 
- function ViewEmployees() {
+function ViewEmployees() {
   // console.log("success");
   connection.query(`SELECT employee_id,first_name,last_name,department.department_name,role.title,role.salary FROM employee
   INNER JOIN role ON role.role_id=employee.role_id
@@ -240,7 +240,7 @@ function DeleteEmployee() {
         type: "input",
         message: "Enter the id of the employee you want to delete?",
       }).then(function (answer) {
-        
+
         connection.query(`DELETE FROM employee WHERE employee_id="${answer.deleteEmployee}"`
           , function (err, res) {
             if (err) throw err;
