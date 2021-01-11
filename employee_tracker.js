@@ -129,6 +129,7 @@ function ViewEmployeesByDepartments() {
     for (var i = 0; i < res.length; i++) {
       depArray.push(res[i].department_name);
     }
+
     inquirer.prompt(
       {
         name: "departments",
@@ -189,32 +190,31 @@ function UpdateEmployee() {
 
 function AddRole() {
   // console.log(" i am in addRole");
+
   inquirer.prompt(
     {
-      name: "addRole",
+      name: "addTitle",
       type: "input",
-      message: "What is the name of the Role you want to add?"
+      message: "What is the title of the Role you want to add?"
+    },
+    {
+      name: "addSalary",
+      type: "input",
+      message: "What is the salary of the Role ?"
+    },
+    {
+      name: "addDepartment",
+      type: "list",
+      message: "What is the department of this role?",
+      choices: depArray
     }
   ).then(function (answer) {
-    connection.query(`SELECT EXISTS(SELECT * FROM department WHERE department_name="${answer.addDepart}") AS is_duplicate`, function (err, res) {
-      if (err) {
-        throw err;
-      }
-      else if (res[0].is_duplicate === 1) {
-        console.log(`This Department is already existed in the DataBase.`);
-        viewDepartments();
-      }
-      else if (res[0].is_duplicate === 0) {
-
-        connection.query(`INSERT INTO department(department_name)
-                        VALUES("${answer.addDepart}")`,
+     connection.query(`INSERT INTO role(title,salary,department_id)
+                        VALUES("${answer.addTitle}","${answer.addSalary}","${answer.addDepartment}")`,
             (err, res) => {
             if (err) throw err;
-            console.log(`This department is Successfully added into the Database `);
-            viewDepartments();
-          }
-        )
-      }
+            console.log(`This Role is Successfully added into the Database `);
+            viewRoles();
 
     })
   })
