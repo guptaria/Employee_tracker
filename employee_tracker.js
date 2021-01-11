@@ -6,6 +6,7 @@ let roleArray = [];
 let depArray = [];
 let deleteArray = [];
 let depRoleArray = [];
+let displayRoleArray=[];
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -159,35 +160,50 @@ function UpdateEmployee() {
   start();
 }
 
-// function AddEmployee(){
-//   console.log(" i am in AddEmployee");
-//   inquirer.prompt(
-//     {
-//     name: "firstName",
-//     type: "input",
-//     message: "What is the first name of the employee?",
-//   },
-//   {
-//     name: "lastName",
-//     type: "input",
-//     message: "What is the last name of the employee?",
-//   },
-// {
-//     name: "adding",
-//     type: "list",
-//     message: "What is the Employee's role?",
-//     choices: [
-//       "View All Employees?",  
-//       "View All Employees By Roles?",
-//       "View all Employee By Deparments?",
-//       "Update Employee?",
-//       "Add Employee?",
-//       "Add Role?",
-//       "Add Department?"
-//     ]
-//   }
-//   start();
-// }
+function AddEmployee() {
+  // console.log(" i am in AddEmployee");
+  var roleQuery = "SELECT * FROM role;";
+  connection.query(roleQuery, (err, res) => {
+    if (err) throw err;
+    for (var i = 0; i < res.length; i++) {
+      displayRoleArray.push(res[i].title);
+    }
+
+    inquirer.prompt([
+      {
+        name: "firstName",
+        type: "input",
+        message: "What is the first name of the employee?",
+      },
+      {
+        name: "lastName",
+        type: "input",
+        message: "What is the last name of the employee?",
+      },
+      {
+        name: "choice",
+        type: "list",
+        message: "What is the Employee's role?",
+        choices: displayRoleArray
+      }
+
+    ]).then(function (answer) {
+      for (var i = 0; i < res.length; i++) {
+        if (res[i].title === answer.choice) {
+          temp = res[i].role_id;
+        }
+      }
+
+      connection.query(`INSERT INTO employee (first_name,last_name,role_id)
+                        VALUES("${answer.firstName}","${answer.lastName}","${temp}")`,
+        (err) => {
+          if (err) throw err;
+          console.log(`Employee is Successfully added into the Database `);
+          ViewEmployees();
+        })
+    })
+  })
+}
 
 function AddRole() {
   // console.log(" i am in addRole");
@@ -217,14 +233,14 @@ function AddRole() {
         message: "Which department this role belongs to?",
         choices: depRoleArray
       }
-      
+
     ]).then(function (answer) {
       for (var i = 0; i < res.length; i++) {
         if (res[i].department_name === answer.choice) {
-         temp = res[i].department_id;
+          temp = res[i].department_id;
         }
       }
-      
+
       connection.query(`INSERT INTO role (title,salary,department_id)
                         VALUES("${answer.addTitle}","${answer.addSalary}","${temp}")`,
         (err) => {
@@ -233,7 +249,7 @@ function AddRole() {
           viewRoles();
         })
     })
-})
+  })
 }
 
 function AddDepartment() {
