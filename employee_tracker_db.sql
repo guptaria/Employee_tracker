@@ -12,9 +12,9 @@ CREATE TABLE department(
 
 CREATE TABLE role(
 role_id INTEGER(30) NOT NULL AUTO_INCREMENT,
-title VARCHAR(30) NOT NULL,
+title VARCHAR(30) NOT NULL UNIQUE,
 department_id INT,
-salary decimal(10,2) ,
+salary decimal(10,2) UNSIGNED ,
 PRIMARY KEY(role_id),
 CONSTRAINT fk_department FOREIGN KEY (department_id) REFERENCES department(department_id) ON DELETE CASCADE
 );
@@ -24,9 +24,8 @@ employee_id INTEGER(30) AUTO_INCREMENT PRIMARY KEY,
 first_name VARCHAR(30) NOT NULL,
 last_name VARCHAR(30) NOT NULL,
 role_id INT,
--- manager_id INT UNSIGNED,
 CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES role(role_id) ON DELETE CASCADE
--- CONSTRAINT fk_manager FOREIGN KEY (manager_id) REFERENCES employee(employee_id) ON DELETE SET NULL
+
 );
 
 -- INSERTING VALUES IN DEPARTMENT TABLE for 4 departments_ID's

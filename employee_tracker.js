@@ -107,7 +107,7 @@ function ViewEmployeesByRoles() {
         message: "Which role of Employee's you want to list?",
         choices: roleArray
       }).then(function (answer) {
-        connection.query(`SELECT employee_id,first_name,last_name,role.title,role.salary FROM employee
+        connection.query(`SELECT role.title,employee_id,first_name,last_name,role.salary FROM employee
     INNER JOIN role ON role.role_id= employee.role_id
     WHERE role.title= "${answer.roles}"
     ORDER BY (employee_id)`, function (err, res) {
@@ -136,7 +136,7 @@ function ViewEmployeesByDepartments() {
         message: "Which department of Employee's you want to list?",
         choices: depArray
       }).then(function (answer) {
-        connection.query(`SELECT employee_id,first_name,last_name,department.department_name FROM employee
+        connection.query(`SELECT department.department_name,employee_id,first_name,last_name FROM employee
       INNER JOIN role ON role.role_id=employee.role_id
       INNER JOIN department ON department.department_id=role.department_id
       WHERE department.department_name="${answer.departments}"
@@ -188,10 +188,37 @@ function UpdateEmployee() {
 // }
 
 function AddRole() {
-  console.log(" i am in AddRole");
-  start();
-}
+  // console.log(" i am in addRole");
+  inquirer.prompt(
+    {
+      name: "addRole",
+      type: "input",
+      message: "What is the name of the Role you want to add?"
+    }
+  ).then(function (answer) {
+    connection.query(`SELECT EXISTS(SELECT * FROM department WHERE department_name="${answer.addDepart}") AS is_duplicate`, function (err, res) {
+      if (err) {
+        throw err;
+      }
+      else if (res[0].is_duplicate === 1) {
+        console.log(`This Department is already existed in the DataBase.`);
+        viewDepartments();
+      }
+      else if (res[0].is_duplicate === 0) {
 
+        connection.query(`INSERT INTO department(department_name)
+                        VALUES("${answer.addDepart}")`,
+            (err, res) => {
+            if (err) throw err;
+            console.log(`This department is Successfully added into the Database `);
+            viewDepartments();
+          }
+        )
+      }
+
+    })
+  })
+}
 
 function AddDepartment() {
   // console.log(" i am in AddDepartment");
@@ -202,46 +229,47 @@ function AddDepartment() {
       message: "What is the name of the department you want to add?"
     }
   ).then(function (answer) {
-    connection.query(`SELECT EXISTS(SELECT * FROM department WHERE department_name="${answer.addDepart}")`, function (err, res) {
+    connection.query(`SELECT EXISTS(SELECT * FROM department WHERE department_name="${answer.addDepart}") AS is_duplicate`, function (err, res) {
       if (err) {
         throw err;
       }
-      else if (res = 0) {
-        console.log(`you can add department ${res}`);
-
+      else if (res[0].is_duplicate === 1) {
+        console.log(`This Department is already existed in the DataBase.`);
+        viewDepartments();
       }
-      else if (res = 1) {
-        console.log(`This Department is already existed in the DataBase ${res}`);
+      else if (res[0].is_duplicate === 0) {
 
-        ViewEmployees();
-        // connection.query(`INSERT INTO department(department_name)VALUES('${answer.addDepart})`, (err, res) => {
-        //           if (err) throw err;
-        //           console.log("ONE NEW ROLE ADDED" + answer.title);
-        //           ViewEmployees();
+        connection.query(`INSERT INTO department(department_name)
+                        VALUES("${answer.addDepart}")`,
+            (err, res) => {
+            if (err) throw err;
+            console.log(`This department is Successfully added into the Database `);
+            viewDepartments();
+          }
+        )
       }
-      // console.log("\n");
-      // console.table(res);
-      // start();
+
     })
   })
 }
 
 function DeleteEmployee() {
   // console.log(" i am in delete Employee");
-  ViewEmployees();
+  // ViewEmployees();
   connection.query("SELECT * FROM employee", function (err, res) {
     if (err) throw err;
     for (var i = 0; i < res.length; i++) {
-      deleteArray.push(res[i].employee_id);
+      deleteArray.push(res[i].first_name);
     }
     inquirer.prompt(
       {
         name: "deleteEmployee",
-        type: "input",
-        message: "Enter the id of the employee you want to delete?",
+        type: "list",
+        message: "Which employee you want to delete?",
+        choices: deleteArray
       }).then(function (answer) {
 
-        connection.query(`DELETE FROM employee WHERE employee_id="${answer.deleteEmployee}"`
+        connection.query(`DELETE FROM employee WHERE first_name="${answer.deleteEmployee}"`
           , function (err, res) {
             if (err) throw err;
             console.log("\n");
@@ -251,6 +279,24 @@ function DeleteEmployee() {
       })
   })
 
+}
+
+function viewDepartments() {
+  connection.query(`SELECT * FROM department`, function (err, res) {
+    if (err) throw err;
+    // Log all results of the SELECT statement
+    console.table(res);
+    start();
+  });
+}
+
+function viewRoles() {
+  connection.query(`SELECT role_id,title,salary, FROM role`, function (err, res) {
+    if (err) throw err;
+    // Log all results of the SELECT statement
+    console.table(res);
+    start();
+  });
 }
 
 function exit() {
