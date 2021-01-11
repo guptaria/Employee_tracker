@@ -67,8 +67,7 @@ CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES role(role_id) ON DELETE CASC
 
 ## Final_Result
 Testing 
-![](Assets/screenshotTest.png)
-![](Assets/screenshotBrowser.png)
+![](assets/screenshots/screenshot1.png)
 
 ## Video_Demo
 [Click to Watch the Video](https://drive.google.com/file/d/14Q8pHlC8-h4D6Bux6fXQvUejTbpiKrjg/view)
