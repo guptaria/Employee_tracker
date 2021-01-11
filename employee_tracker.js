@@ -221,12 +221,12 @@ function AddRole() {
     ]).then(function (answer) {
       for (var i = 0; i < res.length; i++) {
         if (res[i].department_name === answer.choice) {
-         answer.department_id = res[i].department_id;
+         temp = res[i].department_id;
         }
       }
       
       connection.query(`INSERT INTO role (title,salary,department_id)
-                        VALUES("${answer.addTitle}","${answer.addSalary}","${answer.department_id}")`,
+                        VALUES("${answer.addTitle}","${answer.addSalary}","${temp}")`,
         (err) => {
           if (err) throw err;
           console.log(`This Role is Successfully added into the Database `);
