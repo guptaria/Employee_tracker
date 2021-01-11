@@ -15,7 +15,7 @@ Employee Tracker is a CLI applicaiton for building and maintaining companies emp
 
 
 ## Installation
-In order to use this application you will need to first run an npm install in your CLI to install the dependencies that have been loaded into the json files for you. Once this is done, run node app.js in your CLI to start the prompts that will walk you through the verious tasks you can perform with this application.
+In order to use this application you will need to first run an npm install in your CLI to install the dependencies that have been loaded into the json files for you. Once this is done, run node employee_tracker.js in your CLI to start the prompts that will walk you through the verious tasks you can perform with this application.
 
 
 ## UserStory
@@ -33,7 +33,7 @@ Git - Version control system to track changes to source code<br>
 GitHub - Hosts repository that can be deployed to GitHub Pages<br>
 
 ## Code_Snippet
-The following code snippet shows the schema that is the base for our link between our app.js file that oeprates the functions for building upon our employee regestry, and data base we create with this same schema setup in our sql workbench. Once these two are connected via calling upon our required mysql package and connection port and host thats configured in our JavaScript. We can then execute the functionality of the application through our JavaScript.
+The following code snippet shows the schema that is the base for our link between our employee_tracker.js file that oeprates the functions for building upon our employee Table, role Table and department Table. we have same schema set up in our sql workbench.Once the connections are set up via calling upon our required mysql package and connection port, We can then execute the functionality of the application through our JavaScript.
 
 ```
 -- employee_tracker.js

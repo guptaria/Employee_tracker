@@ -6,7 +6,7 @@ let roleArray = [];
 let depArray = [];
 let deleteArray = [];
 let depRoleArray = [];
-let displayRoleArray=[];
+let displayRoleArray = [];
 
 var connection = mysql.createConnection({
   host: "localhost",
