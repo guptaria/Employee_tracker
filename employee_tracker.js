@@ -5,6 +5,7 @@ require("console.table");
 let roleArray = [];
 let depArray = [];
 let deleteArray = [];
+let depRoleArray = [];
 
 var connection = mysql.createConnection({
   host: "localhost",
@@ -190,34 +191,49 @@ function UpdateEmployee() {
 
 function AddRole() {
   // console.log(" i am in addRole");
-
-  inquirer.prompt(
-    {
-      name: "addTitle",
-      type: "input",
-      message: "What is the title of the Role you want to add?"
-    },
-    {
-      name: "addSalary",
-      type: "input",
-      message: "What is the salary of the Role ?"
-    },
-    {
-      name: "addDepartment",
-      type: "list",
-      message: "What is the department of this role?",
-      choices: depArray
+  // var roleQuery = "SELECT * FROM role;";
+  var departmentQuery = "SELECT * FROM department;";
+  // connection.query(roleQuery,(err,roles) => {
+  connection.query(departmentQuery, (err, res) => {
+    if (err) throw err;
+    for (var i = 0; i < res.length; i++) {
+      depRoleArray.push(res[i].department_name);
     }
-  ).then(function (answer) {
-     connection.query(`INSERT INTO role(title,salary,department_id)
-                        VALUES("${answer.addTitle}","${answer.addSalary}","${answer.addDepartment}")`,
-            (err, res) => {
-            if (err) throw err;
-            console.log(`This Role is Successfully added into the Database `);
-            viewRoles();
 
+    inquirer.prompt([
+      {
+        name: "addTitle",
+        type: "input",
+        message: "What is the title of the Role you want to add?"
+      },
+      {
+        name: "addSalary",
+        type: "input",
+        message: "What is the salary of the Role ?"
+      },
+      {
+        name: "choice",
+        type: "list",
+        message: "Which department this role belongs to?",
+        choices: depRoleArray
+      }
+      
+    ]).then(function (answer) {
+      for (var i = 0; i < res.length; i++) {
+        if (res[i].department_name === answer.choice) {
+         answer.department_id = res[i].department_id;
+        }
+      }
+      
+      connection.query(`INSERT INTO role (title,salary,department_id)
+                        VALUES("${answer.addTitle}","${answer.addSalary}","${answer.department_id}")`,
+        (err) => {
+          if (err) throw err;
+          console.log(`This Role is Successfully added into the Database `);
+          viewRoles();
+        })
     })
-  })
+})
 }
 
 function AddDepartment() {
@@ -241,7 +257,7 @@ function AddDepartment() {
 
         connection.query(`INSERT INTO department(department_name)
                         VALUES("${answer.addDepart}")`,
-            (err, res) => {
+          (err, res) => {
             if (err) throw err;
             console.log(`This department is Successfully added into the Database `);
             viewDepartments();
@@ -291,7 +307,7 @@ function viewDepartments() {
 }
 
 function viewRoles() {
-  connection.query(`SELECT role_id,title,salary, FROM role`, function (err, res) {
+  connection.query(`SELECT role_id,title,salary FROM role`, function (err, res) {
     if (err) throw err;
     // Log all results of the SELECT statement
     console.table(res);
