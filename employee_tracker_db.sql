@@ -9,7 +9,7 @@ CREATE TABLE department(
   department_name VARCHAR(30) 
   -- PRIMARY KEY(department_id)
 );
-
+-- Creating Role Table
 CREATE TABLE role(
 role_id INTEGER(30) NOT NULL AUTO_INCREMENT,
 title VARCHAR(30) NOT NULL UNIQUE,
